@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U mau jadi pacar gua?</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fce4ec;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-yes {
+            background-color: #e91e63;
+            color: white;
+        }
+        
+        .btn-no {
+            background-color: #f5f5f5;
+            color: #555;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #e91e63;
+            transform: rotate(45deg);
+            opacity: 0;
+            z-index: 0;
+        }
+        
+        .heart:before, .heart:after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background-color: #e91e63;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            top: -15px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -15px;
+        }
+        
+        .message-box {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8bbd0;
+            border-radius: 10px;
+            color: #c2185b;
+            font-weight: bold;
+            animation: fadeIn 1s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .photo-space {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="confetti"></div>
+    
+    <div class="container">
+    <div class="photo-space">
+        <img src="Khen.png" alt="Khen" width="200" height="200">
+    </div>
+   
+        
+        <h1>Oi lu...iya elu</h1>
+        
+        <p>Cuma test web doang ye jan baper kwkwkwk</p>
+        
+        <div class="buttons">
+            <button class="btn btn-yes" id="yesBtn">Yaudah deh</button>
+            <button class="btn btn-no" id="noBtn">Gak</button>
+        </div>
+        
+        <div class="message-box" id="messageBox"></div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.container');
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const messageBox = document.getElementById('messageBox');
+            const confetti = document.getElementById('confetti');
+            
+            // Create some hearts in the background
+            for (let i = 0; i < 20; i++) {
+                createHeart();
+            }
+            
+            // Yes button event
+            yesBtn.addEventListener('click', function() {
+                messageBox.textContent = "Khensin gacor wakk";
+                messageBox.style.display = 'block';
+                noBtn.style.display = 'none';
+                yesBtn.textContent = "Weladah";
+                
+                // Show confetti
+                confetti.style.display = 'block';
+                createConfetti();
+                
+                // Create more hearts
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        createHeart();
+                    }, i * 100);
+                }
+            });
+            
+            // No button event - make it run away
+            noBtn.addEventListener('mouseover', function() {
+                const btnRect = noBtn.getBoundingClientRect();
+                const maxX = window.innerWidth - btnRect.width;
+                const maxY = window.innerHeight - btnRect.height;
+                
+                const randomX = Math.floor(Math.random() * maxX);
+                const randomY = Math.floor(Math.random() * maxY);
+                
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+            });
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Random position
+                const x = Math.floor(Math.random() * window.innerWidth);
+                const y = Math.floor(Math.random() * window.innerHeight);
+                
+                // Random size
+                const size = Math.floor(Math.random() * 20) + 10;
+                
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+                heart.style.width = size + 'px';
+                heart.style.height = size + 'px';
+                
+                // Set before and after elements to match size
+                const styleSheet = document.styleSheets[0];
+                const ruleIndex = styleSheet.cssRules.length;
+                
+                document.body.appendChild(heart);
+                
+                // Animate hearts
+                heart.style.opacity = '0.7';
+                let position = 0;
+                
+                const moveHeart = setInterval(function() {
+                    position += 1;
+                    heart.style.top = (y + position) + 'px';
+                    heart.style.opacity = (0.7 - (position / 200)).toString();
+                    
+                    if (position > 200) {
+                        clearInterval(moveHeart);
+                        heart.remove();
+                    }
+                }, 50);
+            }
+            
+            function createConfetti() {
+                for (let i = 0; i < 150; i++) {
+                    const confettiPiece = document.createElement('div');
+                    confetti.appendChild(confettiPiece);
+                    
+                    const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                    const size = Math.random() * 10 + 5;
+                    const borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    
+                    confettiPiece.style.position = 'absolute';
+                    confettiPiece.style.width = `${size}px`;
+                    confettiPiece.style.height = `${size}px`;
+                    confettiPiece.style.backgroundColor = color;
+                    confettiPiece.style.borderRadius = borderRadius;
+                    confettiPiece.style.left = `${Math.random() * 100}%`;
+                    confettiPiece.style.top = '-20px';
+                    
+                    const animationDuration = Math.random() * 3 + 2;
+                    confettiPiece.style.animation = `fall ${animationDuration}s linear forwards`;
+                    
+                    confettiPiece.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+                    confettiPiece.style.setProperty('--final-x', `${(Math.random() - 0.5) * 300}px`);
+                    
+                    setTimeout(() => {
+                        confettiPiece.remove();
+                    }, animationDuration * 1000);
+                }
+                
+                // Add falling animation
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    @keyframes fall {
+                        0% {
+                            transform: translateY(0) rotate(0);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translateY(100vh) rotate(var(--rotation)) translateX(var(--final-x));
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        });
+    </script>
+</body>
+</html>
